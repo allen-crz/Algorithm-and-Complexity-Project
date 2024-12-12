@@ -3,7 +3,7 @@ export const numberTheoryAlgorithms = {
     generate: (arr) => {
       const steps = [];
       const array = arr.map(num => ({ ...num }));
-      const oddNumbers = new Set(); // Track odd numbers
+      const oddNumbers = new Set();
 
       for (let i = 0; i < array.length; i++) {
         // Mark current number being checked
@@ -17,7 +17,7 @@ export const numberTheoryAlgorithms = {
         });
 
         // Mark odd/even
-        if (array[i].value % 2 === 1) {
+        if (array[i].value % 2 === 1 || array[i].value % 2 === -1) { // Handle negative numbers
           oddNumbers.add(i);
         }
         
@@ -25,10 +25,10 @@ export const numberTheoryAlgorithms = {
           array: array.map((item, index) => ({
             ...item,
             state: index === i ? 
-              (item.value % 2 === 1 ? 'sorted' : 'swapping') : 
+              (item.value % 2 !== 0 ? 'sorted' : 'swapping') : 
               oddNumbers.has(index) ? 'sorted' : 'default'
           })),
-          message: `${array[i].value} is ${array[i].value % 2 === 1 ? 'odd' : 'even'}`
+          message: `${array[i].value} is ${array[i].value % 2 !== 0 ? 'odd' : 'even'}`
         });
       }
 
@@ -38,7 +38,7 @@ export const numberTheoryAlgorithms = {
           ...item,
           state: oddNumbers.has(index) ? 'sorted' : 'default'
         })),
-        message: `Found ${oddNumbers.size} odd number/s`
+        message: `Found ${oddNumbers.size} odd numbers`
       });
 
       return steps;
@@ -49,7 +49,7 @@ export const numberTheoryAlgorithms = {
     generate: (arr) => {
       const steps = [];
       const array = arr.map(num => ({ ...num }));
-      const primeNumbers = new Set(); // Track prime numbers
+      const primeNumbers = new Set();
 
       const isPrime = (n) => {
         if (n < 2) return false;
@@ -60,16 +60,44 @@ export const numberTheoryAlgorithms = {
       };
 
       for (let i = 0; i < array.length; i++) {
+        const num = array[i].value;
+        
         steps.push({
           array: array.map((item, index) => ({
             ...item,
             state: index === i ? 'comparing' : 
                    primeNumbers.has(index) ? 'sorted' : 'default'
           })),
-          message: `Checking if ${array[i].value} is prime`
+          message: `Checking ${num}`
         });
 
-        const isPrimeNumber = isPrime(array[i].value);
+        // Special cases for 0 and 1
+        if (num === 0 || num === 1) {
+          steps.push({
+            array: array.map((item, index) => ({
+              ...item,
+              state: index === i ? 'swapping' : 
+                     primeNumbers.has(index) ? 'sorted' : 'default'
+            })),
+            message: `${num} is a special case: neither prime nor composite`
+          });
+          continue;
+        }
+
+        // Check for negative numbers
+        if (num < 0) {
+          steps.push({
+            array: array.map((item, index) => ({
+              ...item,
+              state: index === i ? 'swapping' : 
+                     primeNumbers.has(index) ? 'sorted' : 'default'
+            })),
+            message: `${num} is negative: not prime`
+          });
+          continue;
+        }
+
+        const isPrimeNumber = isPrime(num);
         if (isPrimeNumber) {
           primeNumbers.add(i);
         }
@@ -81,7 +109,9 @@ export const numberTheoryAlgorithms = {
               (isPrimeNumber ? 'sorted' : 'swapping') : 
               primeNumbers.has(index) ? 'sorted' : 'default'
           })),
-          message: `${array[i].value} is ${isPrimeNumber ? 'prime' : 'composite'}`
+          message: num === 2 ? 
+            `${num} is the only even prime number` :
+            `${num} is ${isPrimeNumber ? 'prime' : 'composite'}`
         });
       }
 
@@ -91,10 +121,11 @@ export const numberTheoryAlgorithms = {
           ...item,
           state: primeNumbers.has(index) ? 'sorted' : 'default'
         })),
-        message: `Found ${primeNumbers.size} prime number/s`
+        message: `Found ${primeNumbers.size} prime numbers`
       });
 
       return steps;
     }
   }
 };
+
