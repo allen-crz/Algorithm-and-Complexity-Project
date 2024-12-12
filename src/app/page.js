@@ -20,7 +20,7 @@ export default function Home() {
                 </h1>
               </div>
               <a 
-                href="https://github.com/yourusername/algorithm-visualizer" 
+                href="https://github.com/allen-crz/Algorithm-and-Complexity-Project" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center space-x-2 text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
