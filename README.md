@@ -24,7 +24,7 @@ An interactive web application for visualizing various algorithms including sort
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/algorithm-visualizer.git
+https://github.com/allen-crz/Algorithm-and-Complexity-Project.git
 ```
 
 2. Install dependencies:
