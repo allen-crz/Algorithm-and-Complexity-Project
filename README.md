@@ -15,7 +15,7 @@ An interactive web application for visualizing various algorithms including sort
 
 ## Tech Stack
 
-- Next.js 13+ (App Router)
+- Next.js 14+ (App Router)
 - Tailwind CSS
 - Framer Motion
 - Lucide Icons
@@ -29,7 +29,7 @@ https://github.com/allen-crz/Algorithm-and-Complexity-Project.git
 
 2. Install dependencies:
 ```bash
-cd algorithm-visualizer
+cd Algorithm-and-Complexity-Project
 npm install
 ```
 
